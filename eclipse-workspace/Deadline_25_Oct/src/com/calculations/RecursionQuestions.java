@@ -1,9 +1,23 @@
+/*******************************************************************************************************
+* @classname: RecursionQuestions
+* @author: Praroop
+* Modification Log:
+********************************************************************************************************
+* Praroop Kumawat        2024/10/25         Making functions to perform using Recursion
+********************************************************************************************************/
+
 package com.calculations;
 
 import java.util.ArrayList;
 
 public class RecursionQuestions {
-	
+	/**
+	 * calculates the LCM of two numbers
+	 * @param num1 
+	 * @param num2
+	 * @param factor which can divide the numbers
+	 * @return lcm int of the two numbers
+	 */
 	public int lcm(int num1, int num2, int factor) {
 		int lcmValue = 1;
 		if(num1 == 1 && num2 == 1) {
@@ -21,40 +35,34 @@ public class RecursionQuestions {
 		
 		return lcmValue;
 	}
-	
+	/**
+	 * calculates the HCF of two numbers using Euclids Theorem
+	 * @param num1
+	 * @param num2
+	 * @return the HCF of two numbers
+	 */
 	public int hcf(int num1, int num2) {
-		int hcfValue=1;
-		ArrayList<Integer> num1Factor = new ArrayList<>();
-		ArrayList<Integer> num2Factor = new ArrayList<>();
-		num1Factor = findFactors(num1, 2);
-		num2Factor = findFactors(num2, 2);
-		
-		for(int i=0; i<num1Factor.size(); i++) {
-			for(int j=0; j< num2Factor.size(); j++) {
-				if(num1Factor.get(i) == num2Factor.get(i)) {
-					num2Factor.set(j, null);
-					hcfValue *= num1Factor.get(i);
-				}
-			}
+		if ( num1 == 0 ) {
+			return num2;
+		} else if ( num2 == 0 ) {
+			return num1;
+		} else if ( num1 == num2 ) {
+			return num1;
 		}
-		return hcfValue;
-		
+		if ( num1 > num2 ) {
+			return hcf( num1-num2, num2 );
+		} else if ( num2 > num1 ) {
+			return hcf( num1, num2-num1);
+		}
+		return -1;		
 	}
-	
-	public ArrayList<Integer> findFactors(int num, int factor){
-		ArrayList<Integer> factorList = new ArrayList<>();
-		if(num == 1) {
-			return factorList;
-		}
-		if ( num%factor == 0 ) {
-			factorList.add(factor);
-			findFactors( num/factor, factor);
-		}else {
-			findFactors( num, ++factor);
-		}
-		return factorList;
-	}
-	
+	/**
+	 * Searches for the key in the whole array
+	 * @param arr Array in which key has to be searched
+	 * @param index the starting to iterate on array
+	 * @param key the value we are looking for
+	 * @return the index at which key is present in array
+	 */
 	public int linearSearch(int arr[], int index, int key) {
 		if(index > arr.length-1) {
 			return -1;
@@ -63,13 +71,20 @@ public class RecursionQuestions {
 		}
 		return linearSearch(arr, index+1, key);
 	}
-	
+	/**
+	 * searches for key in whole sorted array 
+	 * @param arr Array in which key is searched
+	 * @param start staring index of array
+	 * @param end ending index of array
+	 * @param key the value for which we are looking in array
+	 * @return the index at which key is present in array
+	 */
 	public int binarySearch(int arr[], int start, int end, int key) {
 		if(start > end) {
 			return -1;
 		}
 		int mid = (end-start)/2 + start;
-		if(start==mid && arr[mid]!=key){
+		if(start==end && arr[end]!=key){
 			return -1;
 		}
 		if(arr[mid] == key) {
@@ -80,7 +95,13 @@ public class RecursionQuestions {
 			return binarySearch(arr, mid+1, end, key);
 		}
 	}
-	
+	/**
+	 * checks if the place where we are placing the queen is safe or not
+	 * @param board array in which we are placing the queen
+	 * @param row the row in we are placing queen
+	 * @param column the column in which we are placing the queen
+	 * @return true if queen is not attacked by other queens at that position
+	 */
 	public boolean isSafe(int board[][], int row, int column) {
 		//vertical up
 		for ( int i = row-1; i >= 0; i-- ) {
@@ -104,7 +125,13 @@ public class RecursionQuestions {
 	}
 	
 	static int count = 0;
-	
+	/**
+	 * if n queens can be arranged on nxn board such that no queen attacks other
+	 * @param board array of nxn on which queens have to be arranged
+	 * @param row starting row for placing queen
+	 * @param dimensionOfMatrix dimensions of board
+	 * @return boolean true if possible
+	 */
 	public boolean nQueen(int [][]board, int row, int dimensionOfMatrix) {
 		if ( row == dimensionOfMatrix ) {
 			count++;
@@ -119,9 +146,15 @@ public class RecursionQuestions {
 				board[row][j] = 0;						 // backtracking step
 			}
 		}	
+		if( count > 0) {
+			return true;
+		}
 		return false;
 	}
-	
+	/**
+	 * printing the chess board with arranged queens
+	 * @param board array in which queens are arranged
+	 */
 	public void printChessBoard(int[][] board) {
 		System.out.println("-----chess board-----");
 		for ( int i = 0; i < board.length; i++) {
@@ -137,13 +170,8 @@ public class RecursionQuestions {
 	public static void main(String[] args) {
 		RecursionQuestions recursionObject = new RecursionQuestions();
 		// TODO Auto-generated method stub
-		int[][] board = new int[11][11];
-		if ( recursionObject.nQueen(board, 0, 11)) {
-			System.out.println(" SOLUTION IS POSSIBLE ");
-			recursionObject.printChessBoard(board);
-		} else {
-			System.out.println("Total number of solutions are : " + count);
-		}
+		int[][] board = new int[3][3];
+		System.out.println(recursionObject.nQueen(board, 0, board.length));
 	}
 
 }
