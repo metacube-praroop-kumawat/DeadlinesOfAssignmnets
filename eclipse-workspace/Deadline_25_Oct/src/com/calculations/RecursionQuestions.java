@@ -65,7 +65,7 @@ public class RecursionQuestions {
 	}
 	
 	public int binarySearch(int arr[], int start, int end, int key) {
-		if(start > end) {
+		if(start >= end) {
 			return -1;
 		}
 		int mid = (end-start)/2 + start;
@@ -76,14 +76,71 @@ public class RecursionQuestions {
 		}else {
 			return binarySearch(arr, mid+1, end, key);
 		}
-		
 	}
+	
+	public boolean isSafe(int board[][], int row, int column) {
+		//vertical up
+		for ( int i = row-1; i >= 0; i-- ) {
+			if ( board[i][column] == 1 ) {
+				return false;
+			}
+		}
+		//diagonal left up
+		for ( int i = row - 1, j = column - 1; i >= 0 && j >= 0; i--, j-- ) {
+			if ( board[i][j] == 1 ) {
+				return false;
+			}
+		}
+		//diagonal right up
+		for ( int i = row - 1, j = column + 1; i >= 0 && j < board.length; i--, j++) {
+			if ( board[i][j] == 1 ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	static int count = 0;
+	
+	public boolean nQueen(int [][]board, int row, int dimensionOfMatrix) {
+		if ( row == dimensionOfMatrix ) {
+			count++;
+			printChessBoard(board);
+			return true;
+		}
+		//column loop
+		for ( int j = 0; j < dimensionOfMatrix; j++) {
+			if ( isSafe(board, row, j )) {
+				board[row][j] = 1;
+				nQueen(board, row+1, dimensionOfMatrix); // function call
+				board[row][j] = 0;						 // backtracking step
+			}
+		}	
+		return false;
+	}
+	
+	public void printChessBoard(int[][] board) {
+		System.out.println("-----chess board-----");
+		for ( int i = 0; i < board.length; i++) {
+			for ( int j = 0; j < board.length; j++) {
+				System.out.print(board[i][j] + " ");
+			}
+			System.out.println();
+		}
+	}
+		
+		
 
 	public static void main(String[] args) {
 		RecursionQuestions recursionObject = new RecursionQuestions();
 		// TODO Auto-generated method stub
-		int arr[]  = {1,2,2,4,6,8,11,11,12,15,17};
-		System.out.print(recursionObject.binarySearch(arr, 0, arr.length, 8));
+		int[][] board = new int[11][11];
+		if ( recursionObject.nQueen(board, 0, 11)) {
+			System.out.println(" SOLUTION IS POSSIBLE ");
+			recursionObject.printChessBoard(board);
+		} else {
+			System.out.println("Total number of solutions are : " + count);
+		}
 	}
 
 }
