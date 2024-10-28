@@ -42,19 +42,10 @@ public class RecursionQuestions {
 	 * @return the HCF of two numbers
 	 */
 	public int hcf(int num1, int num2) {
-		if ( num1 == 0 ) {
-			return num2;
-		} else if ( num2 == 0 ) {
-			return num1;
-		} else if ( num1 == num2 ) {
-			return num1;
+		if (a == 0){
+            		return b;
 		}
-		if ( num1 > num2 ) {
-			return hcf( num1-num2, num2 );
-		} else if ( num2 > num1 ) {
-			return hcf( num1, num2-num1);
-		}
-		return -1;		
+        return hcf(b % a, a);		
 	}
 	/**
 	 * Searches for the key in the whole array
