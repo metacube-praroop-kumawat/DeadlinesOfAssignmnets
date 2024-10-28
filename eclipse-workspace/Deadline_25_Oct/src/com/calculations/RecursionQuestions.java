@@ -115,7 +115,6 @@ public class RecursionQuestions {
 		return true;
 	}
 	
-	static int count = 0;
 	/**
 	 * if n queens can be arranged on nxn board such that no queen attacks other
 	 * @param board array of nxn on which queens have to be arranged
@@ -124,6 +123,8 @@ public class RecursionQuestions {
 	 * @return boolean true if possible
 	 */
 	public boolean nQueen(int [][]board, int row, int dimensionOfMatrix) {
+		int count = 0;
+
 		if ( row == dimensionOfMatrix ) {
 			count++;
 			printChessBoard(board);
