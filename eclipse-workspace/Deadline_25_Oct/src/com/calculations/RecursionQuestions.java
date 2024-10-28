@@ -65,10 +65,13 @@ public class RecursionQuestions {
 	}
 	
 	public int binarySearch(int arr[], int start, int end, int key) {
-		if(start >= end) {
+		if(start > end) {
 			return -1;
 		}
 		int mid = (end-start)/2 + start;
+		if(start==mid && arr[mid]!=key){
+			return -1;
+		}
 		if(arr[mid] == key) {
 			return mid+1;
 		}else if(arr[mid] > key) {
